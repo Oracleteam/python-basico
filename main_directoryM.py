@@ -27,6 +27,7 @@ def create_client(client):
 
 def list_client():
     global clients
+
     print('uid |  name  | company  | email  | position ')
     print('*' * 50)
 
@@ -54,10 +55,12 @@ def update_client(index):
 
 def delete_client(index):
     global clients
+    
     clients.pop(index)
 
 
 def _print_welcome():
+    """ welcome message """
     print('WELCOME TO PLATZI VENTAS')
     print('*' * 50)
     print('What would you like to do today?:')
@@ -69,6 +72,7 @@ def _print_welcome():
 
 
 def _get_message(command):
+    """ message of crud acctions """
     if command == "C":
         print('Add client')
     elif command == "L":
@@ -86,6 +90,7 @@ def _get_message(command):
 
 
 def _get_client_field(field_name, message='What is the client {}?'):
+    """ return data input """
     field = None
 
     while not field:
@@ -95,6 +100,7 @@ def _get_client_field(field_name, message='What is the client {}?'):
 
 
 def _get_client():
+    """ format client data """
     client = {
         'name': _get_client_field('name'),
         'company': _get_client_field('company'),
@@ -106,7 +112,8 @@ def _get_client():
 
 
 def _stop():
-    print("preciona enter para continuar")
+    """ stop script until press enter """
+    print("press enter to continue")
     input()
 
 
@@ -135,5 +142,5 @@ if __name__ == '__main__':
         elif command == "E":
             sys.exit()
         else:
-            print("Opcion incorrecta")
+            print("Incorrect option")
     _stop()
