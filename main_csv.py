@@ -1,20 +1,29 @@
 import sys
 import os
+import csv
 
-clients = [
-    {
-        'name': 'Pablo',
-        'company': 'Google',
-        'email': 'pablo@google.com',
-        'position': 'Software Engineer',
-    },
-    {
-        'name': 'Ricardo',
-        'company': 'Facebook',
-        'email': 'ricardo@facebook.com',
-        'position': 'Data Engineer',
-    },
-]
+clients = []
+CLIENTS_TABLE = ".clients.csv"
+CLIENTS_SHEMA = ['name', 'company', 'email', 'position']
+
+
+def _set_data():
+    """ set data from csv """
+    tmp_table_data = "{}.tmp".format(CLIENTS_TABLE)
+    with open(tmp_table_data, mode='w') as csv_file:
+        writer = csv.DictWriter(csv_file, fieldnames=CLIENTS_SHEMA)
+        writer.writerows(clients)
+        os.remove(CLIENTS_TABLE)
+        os.rename(tmp_table_data, CLIENTS_TABLE)
+
+
+def _get_data():
+    """ get data from csv """
+    with open(CLIENTS_TABLE, mode='r') as csv_file:
+        reader = csv.DictReader(csv_file, fieldnames=CLIENTS_SHEMA)
+
+        for row in reader:
+            clients.append(row)
 
 
 def create_client(client):
@@ -120,6 +129,7 @@ def _stop():
 
 if __name__ == '__main__':
     command = ''
+    _get_data()
     while(command != "E"):
         os.system('clear')
         _print_welcome()
@@ -141,6 +151,7 @@ if __name__ == '__main__':
         elif command == "D":
             delete_client(int(_get_client_field("id")))
         elif command == "E":
+            _set_data()
             sys.exit()
         else:
             print("Incorrect option")
