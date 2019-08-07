@@ -10,9 +10,9 @@ def binary_search(data, target, low, high, count):
         print(count)
         return True
     elif target < data[mid]:
-        return binary_search(data, target, low, mid - 1,count + 1)
+        return binary_search(data, target, low, mid - 1, count + 1)
     else:
-        return binary_search(data, target, mid + 1, high,count + 1)
+        return binary_search(data, target, mid + 1, high, count + 1)
 
 
 def binary_search_for(data, target, low, high):
@@ -31,7 +31,7 @@ def binary_search_for(data, target, low, high):
             high = mid - 1
         else:
             low = mid + 1
-        count = count + 1    
+        count = count + 1
     print(count)
     return aux1
 
@@ -41,7 +41,7 @@ if __name__ == '__main__':
     data.sort()
     print(data)
     target = int(input("What number?"))
-    found = binary_search(data, target, 0, len(data)-1,0)
+    found = binary_search(data, target, 0, len(data)-1, 0)
     print(found)
     found1 = binary_search_for(data, target, 0, len(data)-1)
     print(found1)
