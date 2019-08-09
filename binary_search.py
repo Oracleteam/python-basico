@@ -37,7 +37,8 @@ def binary_search_for(data, target, low, high):
 
 
 if __name__ == '__main__':
-    data = [random.randint(0, 1000000) for i in range(1000000)]
+
+    data = [random.randint(0, 1000) for i in range(1000)]
     data.sort()
     print(data)
     target = int(input("What number?"))

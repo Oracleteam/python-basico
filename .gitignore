@@ -1,2 +1,8 @@
+#virtual env
 pyenv/
+#visual code 
 .vscode
+#pycache
+__pycache__
+pv.egg-info
+<clients*
