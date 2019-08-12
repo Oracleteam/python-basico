@@ -31,7 +31,7 @@ def list(ctx):
     click.echo('*' * 50)
     for idx, client in enumerate(client_service.list_client()):
         click.echo('{uid} | {name} | {company} | {email} | {position}'.format(
-            uid=idx,
+            uid=client["uid"],
             name=client['name'],
             company=client['company'],
             email=client['email'],
@@ -43,15 +43,27 @@ def list(ctx):
 @click.pass_context
 def update(ctx, client_uid):
     """Update a client"""
-    for i in enumerate(Client.schema()):
-        message = "do you want change {i[1]}?"
-        ans = input(message.format(i=i))
-        if ans.upper() == "Y":
-            msg="type {i[1]}:"
-            ans = input(msg.format(i=i))
-            
-        else:
-            pass
+    client_service = ClientService(ctx.obj["clients_table"])
+    client_list = client_service.list_client()
+    client = [client for client in client_list if client["uid"] == client_uid]
+    if client:
+        clientss = _update_client_flow(Client(**client[0]))
+        client_service.update_client(clientss)
+        click.echo("Client updated")
+    else:
+        click.echo("Client not found")
+
+
+def _update_client_flow(client):
+    """ flow to update client """
+    click.echo("Leave enmpty if you dont want modify the value")
+    client.name = click.prompt("New Client", type=str, default=client.name)
+    client.company = click.prompt(
+        "New Company", type=str, default=client.company)
+    client.email = click.prompt("New Email", type=str, default=client.email)
+    client.position = click.prompt(
+        "New Position", type=str, default=client.position)
+    return client
 
 
 @clients.command()
