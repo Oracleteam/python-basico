@@ -1,4 +1,5 @@
-import csv, os
+import csv
+import os
 from clients.models import Client
 
 
@@ -17,12 +18,6 @@ class ClientService:
             reader = csv.DictReader(csv_file, fieldnames=Client.schema())
             return list(reader)
 
-    def get_client(self, client_uid):
-        with open(self.tablename, mode='r') as csv_file:
-            reader = csv.DictReader(csv_file, fieldnames=Client.schema())
-            for idx, client in enumerate(reader):
-                print(idx)
-
     def _savefile(self, clients):
         tmp_table_data = "{}.tmp".format(self.tablename)
         with open(tmp_table_data, mode='w') as csv_file:
@@ -38,5 +33,16 @@ class ClientService:
             if client["uid"] == update_client.uid:
                 update_clients.append(update_client.to_dict())
             else:
-                update_clients.append(client) 
+                update_clients.append(client)
         self._savefile(update_clients)
+
+    def delete_client(self, deleted_client):
+        clients=self.list_client()
+        new_clients = []
+        for client in clients:
+            if client["uid"] == deleted_client:
+                pass
+            else:
+                new_clients.append(client)
+        self._savefile(new_clients)
+        
